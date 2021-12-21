@@ -8,7 +8,22 @@
     <title>MojaInstitucija | Map</title>
 </head>
 <body>
-<a class="map" href="/institucii"><i class="fa fa-backward"></i> Назад</a>
+<script>
+
+    const successCallback=(position) =>{
+        const latitude=position.coords.latitude;
+        const longitude=position.coords.longitude;
+        const source="//learngis2.maps.arcgis.com/apps/Embed/index.html?webmap=3b4f66ffeeb445cdb3e4702af138ea2b&extent=21.1075,41.903,21.8257,42.1371&marker="+longitude+";"+latitude+";;My location&zoom=true&previewImage=false&scale=true&legend=true&disable_scroll=true&theme=light";
+        document.getElementById("location").setAttribute("src",source);
+        console.log(position);
+    };
+    const errorCallback=(error) =>{
+        console.error(error);
+    };
+    navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
+
+</script>
+<a class="map" href="/"><i class="fa fa-backward"></i> Назад</a>
 
 <h4><span>Моја</span>Институција</h4>
 <h1><i class="fa fa-map-marker"></i> Мапа</h1>

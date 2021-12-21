@@ -7,7 +7,49 @@
     <link rel="stylesheet" href="/map.css">
 </head>
 <body>
-<a href="/institucii/categories">Назад</a><input type="hidden" th:value="${source}" id="source">
+<script>
+
+    const successCallback=(position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+
+        var sourcelocation = document.getElementById("source").getAttribute("value").toString();
+        console.log(sourcelocation);
+        const source = "https://learngis2.maps.arcgis.com/apps/Embed/index.html?webmap=" + sourcelocation + "&extent=21.1075,41.903,21.8257,42.1371&marker=" + longitude + ";" + latitude + ";;My%20location&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light";
+        /*const source="//learngis2.maps.arcgis.com/apps/Embed/index.html?webmap=3b4f66ffeeb445cdb3e4702af138ea2b&extent=21.1075,41.903,21.8257,42.1371&marker="+longitude+";"+latitude+";;My location&zoom=true&previewImage=false&scale=true&legend=true&disable_scroll=true&theme=light";*/
+        document.getElementById("location").setAttribute("src", source);
+
+        var locationLon = document.getElementById("longitude").getAttribute("value").toString();
+        var locationLat = document.getElementById("latitude").getAttribute("value").toString();
+
+        var R = 6371; // Radius of the earth in km
+        var locationLon = document.getElementById("longitude").getAttribute("value").toString();
+        var locationLat = document.getElementById("latitude").getAttribute("value").toString();
+
+        var dLat = deg2rad(parseFloat(latitude)-parseFloat(locationLat));
+        console.log(dLat)// deg2rad below
+        var dLon = deg2rad(parseFloat(longitude)-parseFloat(locationLon));
+        var a =
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(parseFloat(locationLat))) * Math.cos(deg2rad(parseFloat(latitude))) *
+            Math.sin(dLon/2) * Math.sin(dLon/2)
+        ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = (R * c).toFixed(2); // Distance in km
+        function deg2rad(deg) {
+            return deg * (Math.PI/180)
+        }
+        document.getElementById("distanca").innerText="Оддалечени сте од бараната локација: "+d+"km";
+    };
+    const errorCallback=(error) =>{
+        console.error(error);
+    };
+    navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
+
+
+</script>
+<a href="/categories">Назад</a><input type="hidden" th:value="${source}" id="source">
 <input type="hidden" th:value="${locationLon}" id="longitude">
 <input type="hidden" th:value="${locationLat}" id="latitude">
 <div class="box">

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/institucii")
+@RequestMapping("/")
 public class LocationController {
     private final KategorijaService kategorijaService;
     private final UslugaService uslugaService;
