@@ -76,15 +76,4 @@
             </plugin>
         </plugins>
     </build>
-    <beans>
-    <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="#{systemEnvironment['jdbc:postgres://lrskhyjqngquhf:c0e678331e562c5f1a5d7ee352ac252ce687f95e0e9e41aa4ce94efa03159ad9@ec2-34-255-109-139.eu-west-1.compute.amazonaws.com:5432/d31eqvflkl60l4']}"/>
-    </bean>
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="url" value="#{ 'jdbc:postgresql://lrskhyjqngquhf:c0e678331e562c5f1a5d7ee352ac252ce687f95e0e9e41aa4ce94efa03159ad9@ec2-34-255-109-139.eu-west-1.compute.amazonaws.com:5432/d31eqvflkl60l4' }"/>
-        <property name="username" value="#{ 'lrskhyjqngquhf' }"/>
-        <property name="password" value="#{ 'c0e678331e562c5f1a5d7ee352ac252ce687f95e0e9e41aa4ce94efa03159ad9' }"/>
-    </bean>
-    </beans>
 </project>
