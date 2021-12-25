@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -172,7 +172,7 @@
 <body>
 <a class="map" href="/categories"><i class="fa fa-backward"></i> Назад</a>
 <div class="box">
-    <h4><span>Моја</span>Институција</h4>
+    <h4><span id="naslov">Моја</span>Институција</h4>
 </div>
 <div class="categories">
     <input type="hidden" th:value="${locationLon}" id="longitude">
@@ -182,8 +182,10 @@
             <th:block th:text="${name}"></th:block> <br>
             Адреса: <th:block th:text="${address}"></th:block>
             <br>
-            <span id="distanca" ></span>
+            <span id="distanca" ></span></br>
+            <span id="instruction">(Кликнете било каде на мапата за да ви се прикаже рутата до избраната локација)</span>
         </p>
+
         <div class="embed-container ">
 
             <div id="viewDiv" class="myDiv" style="width: 750px; height: 400px; position: absolute;left: 300px;top:180px;border: 8px solid #ff8b3d;
