@@ -1,6 +1,7 @@
 package com.mojainstitucija.mojainstitucija.service.impl;
 
 import com.mojainstitucija.mojainstitucija.model.Kategorija;
+import com.mojainstitucija.mojainstitucija.model.exceptions.KategorijaNotFoundException;
 import com.mojainstitucija.mojainstitucija.repository.jpa.KategorijaRepository;
 import com.mojainstitucija.mojainstitucija.service.KategorijaService;
 import org.springframework.stereotype.Service;

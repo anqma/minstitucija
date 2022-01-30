@@ -14,168 +14,17 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
-    <link rel="stylesheet" href="/map.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="stylesheet" href="/css/map.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://js.arcgis.com/4.22/"></script>
-
-    <script>
-
-
-        const successCallback=(position) => {
-            const latitude1 = position.coords.latitude;
-            const longitude1 = position.coords.longitude;
-            require([
-                "esri/config",
-                "esri/Map",
-                "esri/views/MapView",
-
-                "esri/Graphic",
-                "esri/rest/route",
-                "esri/rest/support/RouteParameters",
-                "esri/rest/support/FeatureSet"
-
-            ], function(esriConfig, Map, MapView, Graphic, route, RouteParameters, FeatureSet) {
-
-                esriConfig.apiKey = "AAPK664e788b931440faa25103947eb7ae10keFmssVXc-rfwusYXhb94TBgeJLSoC95vkYya1QHV22Yh0nNhvvUldCE1SRQs7Xx";
-
-                const map = new Map({
-                    basemap: "arcgis-navigation" //Basemap layer service
-                });
-
-
-
-                const view = new MapView({
-                    container: "viewDiv",
-                    map: map,
-                    center: [longitude1,latitude1], //Longitude, latitude
-                    zoom: 13
-                });
-
-                const routeUrl = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
-
-
-                view.on("click",function(event){
-                    const locationLon = document.getElementById("longitude").getAttribute("value");
-                    const locationLat = document.getElementById("latitude").getAttribute("value");
-                    console.log(locationLon,locationLat);
-
-                    const point1 = { //Create a point
-                        type: "point",
-                        longitude: longitude1,
-                        latitude: latitude1
-                    };
-
-
-                    addGraphic("origin", point1);
-
-                    const point2 = { //Create a point
-                        type: "point",
-                        longitude:locationLon,
-                        latitude: locationLat
-                    };
-                    addGraphic("destination", point2);
-
-                    getRoute(); // Call the route service
-
-
-                });
-
-                function addGraphic(type, point) {
-                    const graphic = new Graphic({
-                        symbol: {
-                            type: "simple-marker",
-                            color: (type === "origin") ? "white" : "black",
-                            size: "8px"
-                        },
-                        geometry: point
-                    });
-                    view.graphics.add(graphic);
-                }
-
-                function getRoute() {
-                    const routeParams = new RouteParameters({
-                        stops: new FeatureSet({
-                            features: view.graphics.toArray()
-                        }),
-
-                        returnDirections: true
-
-                    });
-
-                    route.solve(routeUrl, routeParams)
-                        .then(function(data) {
-                            data.routeResults.forEach(function(result) {
-                                result.route.symbol = {
-                                    type: "simple-line",
-                                    color: [5, 150, 255],
-                                    width: 3
-                                };
-                                view.graphics.add(result.route);
-                            });
-
-                            // Display directions
-                            if (data.routeResults.length > 0) {
-                                const directions = document.createElement("ol");
-                                directions.classList = "esri-widget esri-widget--panel esri-directions__scroller";
-                                directions.style.marginTop = "0";
-                                directions.style.padding = "15px 15px 15px 30px";
-                                const features = data.routeResults[0].directions.features;
-
-                                // Show each direction
-                                features.forEach(function(result,i){
-                                    const direction = document.createElement("li");
-                                    direction.innerHTML = result.attributes.text + " (" + result.attributes.length.toFixed(2) + " miles)";
-                                    directions.appendChild(direction);
-                                });
-
-                                view.ui.empty("top-right");
-                                view.ui.add(directions, "top-right");
-
-
-                            }
-
-                        })
-
-                        .catch(function(error){
-                            console.log(error);
-                        })
-
-                }
-
-            });
-            var R = 6371; // Radius of the earth in km
-            var locationLon = parseFloat(document.getElementById("longitude").getAttribute("value").toString());
-            var locationLat = parseFloat(document.getElementById("latitude").getAttribute("value").toString());
-
-            var dLat = deg2rad(latitude1-locationLat);
-            console.log(dLat)// deg2rad below
-            var dLon = deg2rad(longitude1-locationLon);
-            var a =
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(deg2rad(locationLat)) * Math.cos(deg2rad(latitude1)) *
-                Math.sin(dLon/2) * Math.sin(dLon/2)
-            ;
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            var d = (R * c).toFixed(2); // Distance in km
-            function deg2rad(deg) {
-                return deg * (Math.PI/180)
-            }
-            document.getElementById("distanca").innerText="Оддалечени сте од бараната локација: "+d+"km";
-
-        };
-
-        const errorCallback=(error) =>{
-            console.error(error);
-        };
-        navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
-    </script>
+    <script type="text/javascript" src="/lokacija.js"></script>
 
 </head>
 <body>
-<a class="map" href="/categories"><i class="fa fa-backward"></i> Назад</a>
+<a class="map" href="/kategorii"><i class="fa fa-backward"></i> Назад</a>
 <div class="box">
     <h4><span id="naslov">Моја</span>Институција</h4>
 </div>
@@ -193,7 +42,7 @@
 
         <div class="embed-container ">
 
-            <div id="viewDiv" class="myDiv" style="width: 750px; height: 400px; position: absolute;left: 300px;top:210px;border: 8px solid #ff8b3d;
+            <div id="viewDiv" class="container col-6" style="width: 750px; height: 400px; position: absolute;left: 300px;top:200px;border: 8px solid #ff8b3d;
     border-radius: 30px 30px 30px 30px;
     box-shadow: 10px 10px 8px #ff8b3d;">
             </div>
